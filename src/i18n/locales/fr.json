@@ -1,0 +1,99 @@
+{
+  "app": {
+    "title": "BoviScan",
+    "subtitle": "Identification Biométrique Bovine",
+    "description": "Prenez ou téléchargez une photo du museau d'une vache. Notre système alimenté par IA analyse les motifs biométriques uniques pour une identification précise.",
+    "version": "BoviScan v2.0 • Propulsé par Hugging Face"
+  },
+  "nav": {
+    "logoPlaceholder": "LogoLogoLogo",
+    "apiConnected": "API Connectée",
+    "theme": "Thème",
+    "language": "Langue"
+  },
+  "steps": {
+    "capture": "Capture",
+    "result": "Résultat"
+  },
+  "camera": {
+    "startCamera": "Démarrer la caméra",
+    "capture": "Capturer",
+    "cancel": "Annuler",
+    "usePhoto": "Utiliser la photo",
+    "retake": "Reprendre",
+    "live": "EN DIRECT",
+    "error": "Erreur caméra",
+    "permissionDenied": "Accès caméra refusé. Veuillez autoriser l'accès.",
+    "popupTitle": "Guide de Scan",
+    "popupText": "Pour un résultat fiable :\n• Placez-vous à 20–40 cm du museau\n• Le nez doit occuper au moins 60 % de l'image\n• Prenez la photo de face avec une lumière naturelle\n• Gardez la caméra stable\n• Évitez le flou, les reflets et les poils sur le nez\n\n⚠️ Une photo de mauvaise qualité peut empêcher l'identification.",
+    "popupConfirm": "J'ai compris",
+    "popupCancel": "Annuler"
+  },
+  "upload": {
+    "dragDrop": "Glisser-déposer ou cliquer pour télécharger",
+    "formats": "JPG, PNG • Max 10MB",
+    "dropHere": "Déposer l'image ici",
+    "ready": "Prêt",
+    "remove": "Supprimer",
+    "errorType": "Veuillez télécharger un fichier image",
+    "errorSize": "La taille doit être inférieure à 10MB"
+  },
+  "result": {
+    "analyzing": "Analyse biométrique en cours...",
+    "processing": "Traitement du motif du museau...",
+    "found": "BOVIN TROUVÉ",
+    "notFound": "NON TROUVÉ",
+    "cowId": "ID Vache",
+    "confidence": "Score de Confiance",
+    "analysisFailed": "Analyse échouée",
+    "tryAgain": "Veuillez réessayer avec une meilleure image",
+    "sendToApi": "Envoyer à l'API",
+    "processingApi": "Traitement...",
+    "cancel": "Annuler",
+    "newIdentification": "Nouvelle identification",
+    "preview": "Aperçu",
+    "readyToAnalyze": "Prêt à analyser",
+    "upload": "Téléchargement",
+    "predict": "Prédiction",
+    "polling": "Analyse en cours",
+    "complete": "Terminé",
+    "uploading": "Téléchargement de l'image...",
+    "sending": "Envoi de la requête...",
+    "analyzingPattern": "Analyse du motif..."
+  },
+  "database": {
+    "title": "gynécologie bovine & historique",
+    "identification": "Identification",
+    "nni": "NNI",
+    "race": "Race",
+    "birthDate": "Date de naissance",
+    "sex": "Sexe",
+    "type": "Type",
+    "mother": "Mère",
+    "father": "Père",
+    "gpp": "GPP (Grand-père paternel)",
+    "gmp": "GMP (Grand-mère paternelle)",
+    "gpm": "GPM (Grand-père maternel)",
+    "gmm": "GMM (Grand-mère maternelle)",
+    "lactations": "Lactations",
+    "lactationNum": "Lactation n°",
+    "date": "Date",
+    "milk": "Lait (kg)",
+    "fat": "Matière grasse (%)",
+    "fatKg": "MG (kg)",
+    "protein": "Protéine (%)",
+    "proteinKg": "Protéine (kg)",
+    "farmer": "Éleveur",
+    "loading": "Chargement des données...",
+    "error": "Erreur de chargement des données",
+    "noData": "Aucune donnée trouvée"
+  },
+  "mode": {
+    "upload": "Télécharger une image",
+    "camera": "Caméra en direct",
+    "search": "Recherche"
+  },
+  "footer": {
+    "secure": "Identification biométrique sécurisée"
+  }
+}
