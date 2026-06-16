@@ -59,11 +59,7 @@ VITE_MONGODB_API_URL=http://localhost:5000/api
 - **Search Cow**: `GET /api/cattle/search?nniEndsWith={last4digits}`
 - **Get Lactations**: `GET /api/lactations?nni={fullNNI}`
 
-## MongoDB Data Structure
-
-The API returns partial IDs (e.g., "1670"), which are matched against full NNIs in the database (e.g., "MAR06BA000401670").
-
-### Collections
+### MongoDB Collections
 
 **identifications:**
 - `nni`: Full national ID (e.g., "MAR06BA000401670")
@@ -125,5 +121,3 @@ All colors use CSS custom properties for instant theme switching without re-rend
 ## License
 
 MIT
-# asehnoune
-# asehnoune
