@@ -274,74 +274,87 @@ export default function ResultComponent({ result, isLoading, error, className })
   const isFound = parsed.isFound
 
   return (
-    <div className={cn(
-      "glass-panel p-6 animate-fade-in-up",
-      visible && "opacity-100",
-      className
-    )}>
-      {/* Header */}
-      <div className={cn("flex items-start justify-between mb-6", isRTL && "flex-row-reverse")}>
-        <div className={cn("flex items-center gap-3", isRTL && "flex-row-reverse")}>
-          <div className={cn(
-            "w-10 h-10 rounded-xl flex items-center justify-center border",
-            isFound 
-              ? "bg-[var(--accent)]/10 border-[var(--accent)]/20" 
-              : "bg-[var(--warning)]/10 border-[var(--warning)]/20"
-          )}>
-            {isFound ? (
-              <CheckCircle2 className="w-5 h-5 text-[var(--accent)]" />
-            ) : (
-              <XCircle className="w-5 h-5 text-[var(--warning)]" />
-            )}
-          </div>
-          <div>
-            <div className={cn("flex items-center gap-2", isRTL && "flex-row-reverse")}>
-              <h3 className="text-sm font-semibold text-[var(--text-primary)]">
-                {isFound ? t('result.found') : t('result.notFound')}
-              </h3>
-              <span className={cn(
-                "text-[10px] font-mono px-2 py-0.5 rounded-full border",
-                isFound
-                  ? "text-[var(--accent)] bg-[var(--accent)]/10 border-[var(--accent)]/20"
-                  : "text-[var(--warning)] bg-[var(--warning)]/10 border-[var(--warning)]/20"
-              )}>
-                {parsed.confidence.toFixed(1)}%
-              </span>
+      <div className={cn(
+        "glass-panel p-6 animate-fade-in-up",
+        visible && "opacity-100",
+        className
+      )}>
+        {/* Header */}
+        <div className={cn("flex items-start justify-between mb-6", isRTL && "flex-row-reverse")}>
+          <div className={cn("flex items-center gap-3", isRTL && "flex-row-reverse")}>
+            <div className={cn(
+              "w-10 h-10 rounded-xl flex items-center justify-center border",
+              isFound 
+                ? "bg-[var(--accent)]/10 border-[var(--accent)]/20" 
+                : "bg-[var(--warning)]/10 border-[var(--warning)]/20"
+            )}>
+              {isFound ? (
+                <CheckCircle2 className="w-5 h-5 text-[var(--accent)]" />
+              ) : (
+                <XCircle className="w-5 h-5 text-[var(--warning)]" />
+              )}
             </div>
-            <p className="text-xs text-[var(--text-muted)] mt-0.5">{parsed.statusText}</p>
+            <div>
+              <div className={cn("flex items-center gap-2", isRTL && "flex-row-reverse")}>
+                <h3 className="text-sm font-semibold text-[var(--text-primary)]">
+                  {isFound ? t('result.found') : t('result.notFound')}
+                </h3>
+                {/* Only show confidence pill if found */}
+                {isFound && (
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-full border text-[var(--accent)] bg-[var(--accent)]/10 border-[var(--accent)]/20">
+                    {parsed.confidence.toFixed(1)}%
+                  </span>
+                )}
+              </div>
+              <p className="text-xs text-[var(--text-muted)] mt-0.5">{parsed.statusText}</p>
+            </div>
           </div>
+          <ShieldCheck className="w-5 h-5 text-[var(--text-muted)]/30" />
         </div>
-        <ShieldCheck className="w-5 h-5 text-[var(--text-muted)]/30" />
-      </div>
 
-      {/* Main Result - Only Cow ID + Confidence */}
-      <div className="mb-2 p-4 rounded-xl bg-[var(--bg-secondary)]/50 border border-[var(--border-color)]/30">
-        <div className={cn("flex items-center justify-between mb-3", isRTL && "flex-row-reverse")}>
-          <div className={cn("flex items-center gap-2", isRTL && "flex-row-reverse")}>
-            <Database className="w-4 h-4 text-[var(--accent)]/60" />
-            <span className="text-xs text-[var(--text-muted)] font-mono uppercase tracking-wider">{t('result.cowId')}</span>
+        {/* Main Result */}
+        <div className="mb-2 p-4 rounded-xl bg-[var(--bg-secondary)]/50 border border-[var(--border-color)]/30">
+          <div className={cn("flex items-center justify-between mb-3", isRTL && "flex-row-reverse")}>
+            <div className={cn("flex items-center gap-2", isRTL && "flex-row-reverse")}>
+              <Database className="w-4 h-4 text-[var(--accent)]/60" />
+              <span className="text-xs text-[var(--text-muted)] font-mono uppercase tracking-wider">{t('result.cowId')}</span>
+            </div>
+            {isFound && <TrendingUp className="w-4 h-4 text-[var(--accent)]/60" />}
           </div>
-          <TrendingUp className="w-4 h-4 text-[var(--accent)]/60" />
+          
+          <p className="text-2xl font-bold text-[var(--text-primary)] font-mono tracking-tight">
+            {isFound ? (parsed.fullNni || parsed.cowId) : "INCONNU"}
+          </p>
+          
+          {/* Only show progress bar and score text if found */}
+          {isFound && (
+            <div className="mt-3">
+              <div className={cn("flex items-center justify-between mb-1.5", isRTL && "flex-row-reverse")}>
+                <span className="text-xs text-[var(--text-muted)]">{t('result.confidence')}</span>
+                <span className="text-xs font-mono text-[var(--accent)]">{parsed.confidenceText}</span>
+              </div>
+              <div className="h-2.5 bg-[var(--bg-secondary)] rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-[var(--accent-dim)] via-[var(--accent)] to-[var(--accent)] rounded-full transition-all duration-1000 ease-out"
+                  style={{ width: `${Math.min(parsed.confidence, 100)}%`, boxShadow: '0 0 10px var(--accent-glow)' }}
+                />
+              </div>
+            </div>
+          )}
         </div>
-        <p className="text-2xl font-bold text-[var(--text-primary)] font-mono tracking-tight">
-          {parsed.fullNni || parsed.cowId}
-        </p>
-        <div className="mt-3">
-          <div className={cn("flex items-center justify-between mb-1.5", isRTL && "flex-row-reverse")}>
-            <span className="text-xs text-[var(--text-muted)]">{t('result.confidence')}</span>
-            <span className="text-xs font-mono text-[var(--accent)]">{parsed.confidenceText}</span>
-          </div>
-          <div className="h-2.5 bg-[var(--bg-secondary)] rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-[var(--accent-dim)] via-[var(--accent)] to-[var(--accent)] rounded-full transition-all duration-1000 ease-out"
-              style={{ width: `${Math.min(parsed.confidence, 100)}%`, boxShadow: '0 0 10px var(--accent-glow)' }}
-            />
-          </div>
-        </div>
-      </div>
 
-      {/* Database Panel */}
-      <DatabasePanel data={dbData} isLoading={isLoading} error={null} t={t} />
-    </div>
-  )
-}
+        {/* Database Panel */}
+        {isFound ? (
+          <DatabasePanel data={dbData} isLoading={isLoading} error={null} t={t} />
+        ) : (
+          /* Render a clean "No Data" message directly if not found */
+          <div className="glass-panel p-6 mt-4 border border-[var(--warning)]/20 animate-fade-in-up">
+            <div className="flex items-center gap-2 text-[var(--warning)]">
+              <AlertCircle className="w-4 h-4" />
+              <span className="text-sm">{t('database.noData')}</span>
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  }

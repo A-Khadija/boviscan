@@ -320,28 +320,27 @@ export async function identifyCattle(file, onProgress = () => {}) {
 
   onProgress({ step: 'result', status: 'complete', message: 'complete' })
 
-  // Step 4: Parse result and fetch MongoDB data
+  // Step 4: Parse result and enforce confidence threshold
   const [debugImage, statusText, rawCowId, confidenceText, faissDetails] = apiResult
-  const cowId = normalizeCowId(rawCowId)
 
   const confidenceMatch = confidenceText?.match(/([\d.]+)/)
   const confidence = confidenceMatch ? parseFloat(confidenceMatch[1]) : 0
 
-  const isFound = statusText?.toLowerCase().includes('trouvé') || 
-                  statusText?.toLowerCase().includes('found') ||
-                  confidence > 50
+  // STRICT RULE: Must be over 50% confidence to be considered "Found"
+  const isFound = confidence >= 50;
 
-  // Step 5: Always try to fetch data from LOCAL JSON files for enrichment
+  // If not found, force the cowId to be null so it doesn't fetch false data
+  const cowId = isFound ? normalizeCowId(rawCowId) : null;
+
+  // Step 5: ONLY try to fetch data from LOCAL JSON if the bovine is verified as Found
   let dbData = null
-  if (cowId) {
+  if (isFound && cowId) {
     try {
       onProgress({ step: 'database', status: 'loading', message: 'loading' })
       
-      // Always use local JSON data to find full NNI and enrichment
       dbData = findCowInLocalData(cowId)
 
       if (dbData && dbData.nni) {
-        // Fetch lactations from local data
         const lactations = getLactationsFromLocal(dbData.nni)
         dbData.lactations = lactations
       }
@@ -350,19 +349,18 @@ export async function identifyCattle(file, onProgress = () => {}) {
     } catch (err) {
       console.warn('Local data fetch failed:', err)
       onProgress({ step: 'database', status: 'error', message: 'error' })
-      // Continue even if database fetch fails
     }
   }
 
   return {
     apiResult,
     parsed: {
-      statusText,
+      statusText: isFound ? 'Trouvé' : 'Non Trouvé', // Forces clean UI text
       cowId,
       confidence,
       confidenceText,
       isFound,
-      fullNni: dbData?.nni || cowId  // Return full NNI if found
+      fullNni: dbData?.nni || cowId // Will be null if isFound is false
     },
     dbData
   }
